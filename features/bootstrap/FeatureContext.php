@@ -9,46 +9,9 @@ use Behat\Behat\Tester\Exception\PendingException;
 class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
 
   /**
-  * Initializes context.
-  */
-  public function __construct() {
-  }
-
-  /**
-   * @Then I should have access to the homepage
-   *
-   * Visit the home page, and assert 200 response code.
-   */
-  public function iShouldHaveAccessToTheHomepage() {
-    $this->getSession()->visit($this->locatePath('/'));
-    $this->assertSession()->statusCodeEquals('200');
-  }
-
-  /**
-  * @Then I am on edit page for the content :title
-  */
-  public function iAmOnEditPageForTheContent($title) {
-    $query = new entityFieldQuery();
-    $result = $query
-    ->entityCondition('entity_type', 'node')
-    ->propertyCondition('title', $title)
-    ->propertyCondition('status', NODE_PUBLISHED)
-    ->range(0, 1)
-    ->execute();
-
-    if (empty($result['node'])) {
-      $params = array(
-        '@title' => $title,
-      );
-      throw new Exception(format_string("Node @title not found.", $params));
-    }
-
-    $nid = key($result['node']);
-    $this->getSession()->visit($this->locatePath('node/' . $nid . '/edit'));
-  }
-
-  /**
   * @Then I visit content :title
+   *
+   * Query the node by title and redirect.
   */
   public function iVisitContent($title) {
     $query = new entityFieldQuery();
@@ -77,7 +40,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   public function takeScreenshotAfterFailedStep($event) {
     if ($event->getTestResult()->isPassed()) {
       // Not a failed step.
-      // return;
+      return;
     }
 
     if ($this->getSession()->getDriver() instanceof \Behat\Mink\Driver\Selenium2Driver) {
