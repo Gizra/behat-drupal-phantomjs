@@ -1,14 +1,9 @@
 default:
-  suites:
-    default:
-      contexts:
-        - Drupal\DrupalExtension\Context\DrupalContext
   extensions:
     Behat\MinkExtension:
-      goutte: ~
-      selenium2: ~
-      base_url: http://localhost/garmentbox/www
+      # Replace with your real URL.
+      base_url: http://localhost/drupal7
     Drupal\DrupalExtension:
-      api_driver: "drupal"
       drupal:
-        drupal_root: "/var/www/garmentbox/www"
+        # Replace with your real Drupal root.
+        drupal_root: "/var/www/drupal7"
