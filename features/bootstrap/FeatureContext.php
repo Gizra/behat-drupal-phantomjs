@@ -67,6 +67,28 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     }
   }
 
+  /**
+   * @BeforeScenario
+   *
+   * Delete the RESTful tokens before every scenario, so user starts as
+   * anonymous.
+   */
+  public function deleteRestfulTokens($event) {
+    if (!module_exists('restful_token_auth')) {
+      // Module is disabled.
+      return;
+    }
+
+    if (!$entities = entity_load('restful_token_auth')) {
+      // No tokens found.
+      return;
+    }
+
+    foreach ($entities as $entity) {
+      $entity->delete();
+    }
+  }
+
 
   /**
    * Helper function; Execute a function until it return TRUE or timeouts.
