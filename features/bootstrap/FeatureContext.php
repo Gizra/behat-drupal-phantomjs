@@ -48,11 +48,11 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
 
 
   /**
-  * @AfterStep
-  *
-  * Take a screen shot after failed steps for Selenium drivers (e.g.
-  * PhantomJs).
-  */
+   * @AfterStep
+   *
+   * Take a screen shot after failed steps for Selenium drivers (e.g.
+   * PhantomJs).
+   */
   public function takeScreenshotAfterFailedStep($event) {
     if ($event->getTestResult()->isPassed()) {
       // Not a failed step.
